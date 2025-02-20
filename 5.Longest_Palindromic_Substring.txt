@@ -1,0 +1,35 @@
+//Manachar's algorithm
+
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        string t = "#";
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            t+=s[i];
+            t+='#';
+        }
+        n = t.size();
+        vector<int> v(n,0);
+        int r=0,c=0,len=0,center=0;
+        for(int i=0;i<n;i++){
+            int temp = 2*c - i;
+            if(i<r){
+                v[i] = min(r-i,v[temp]);
+            }
+            while(i-1-v[i]>=0 && i+1+v[i]<n && t[i-1-v[i]]==t[i+1+v[i]]){
+                v[i]++;
+            }
+            if(c+i>r){
+                r = i + v[i];
+                c = i;
+            }
+            if(v[i]>len){
+                len = v[i];
+                center = i;
+            }
+        }
+        int str = (center-len)/2;
+        return s.substr(str,len);
+    }
+};
